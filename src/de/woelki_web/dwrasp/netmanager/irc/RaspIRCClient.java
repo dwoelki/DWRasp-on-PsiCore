@@ -19,11 +19,15 @@ import de.tu_berlin.ilr.ipsm.netmanager.irc.InterpretingIRCClient;
 
 abstract public class RaspIRCClient extends InterpretingIRCClient {
     
-    final   static  String  INTERPRETER_IMPL = "de.tu_berlin.ilr.ipsm.core.remote.IRCInterpreter";
+    final   static  String  INTERPRETER_IMPL = "de.woelki_web.dwrasp.netmanager.irc.DefaultRaspIRCClient";
     static  RaspIRCClient   ACTIVE_CLIENT;
     
     RaspIRCClient(String server, int port) {
         super(server, port, INTERPRETER_IMPL);
+    }
+    
+    RaspIRCClient(String server, int port, String interprImpl) {
+        super(server, port, interprImpl);
     }
     
     abstract protected String getInterpreterImplementation();

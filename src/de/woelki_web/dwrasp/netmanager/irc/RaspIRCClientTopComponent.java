@@ -13,6 +13,7 @@ import de.tu_berlin.ilr.ipsm.util.ConsoleTab;
 import de.tu_berlin.ilr.ipsm.util.LookupInstantiator;
 import de.tu_berlin.ilr.ipsm.util.UtilBox;
 import de.tu_berlin.ilr.ipsm.util.netmanager.IClientManager;
+import de.woelki_web.dwrasp.netmanager.RaspClientManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -37,7 +38,7 @@ import org.openide.util.NbBundle.Messages;
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "RaspIRC-Client",
+        preferredID = "IRC-Client",
         //iconBase="SET/PATH/TO/ICON/HERE", 
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
@@ -46,12 +47,12 @@ import org.openide.util.NbBundle.Messages;
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
         displayName = "#CTL_RaspIRCClientTopComponent",
-        preferredID = "RaspIRC-Client"
+        preferredID = "IRC-Client"
 )
 @Messages({
-    "CTL_RaspIRCClientTopComponentAction=RaspIRC-Client",
-    "CTL_RaspIRCClientTopComponent=RaspIRC-Client",
-    "HINT_RaspIRCClientTopComponent=Monitors the default RaspIRC-Client"
+    "CTL_RaspIRCClientTopComponentAction=IRC-Client",
+    "CTL_RaspIRCClientTopComponent=IRC-Client",
+    "HINT_RaspIRCClientTopComponent=Monitors the default IRC-Client"
 })
 public final class RaspIRCClientTopComponent extends TopComponent {
 
@@ -69,7 +70,9 @@ public final class RaspIRCClientTopComponent extends TopComponent {
         initToolTips();
         try {
             initIRC();
-        } catch(Exception ex) { /*nothing*/ }
+        } catch(Exception ex) {
+            UtilBox.ErrLog.errStackTrace(ex,10);
+        }
         RECENT_MSGS = new java.util.ArrayList<>();
         setName(Bundle.CTL_RaspIRCClientTopComponent());
         setToolTipText(Bundle.HINT_RaspIRCClientTopComponent());
@@ -249,7 +252,7 @@ public final class RaspIRCClientTopComponent extends TopComponent {
         if (GlobalSettings.DEFAULT_SERVICES.get(IClientManager.class.getName())!=null)
             _managerObject = (IClientManager)LookupInstantiator.instantiateViaLookup(IClientManager.class, GlobalSettings.DEFAULT_SERVICES.get(IClientManager.class.getName()));
         else
-            _managerObject = (IClientManager)LookupInstantiator.instantiateViaLookup(IClientManager.class);
+            _managerObject = (IClientManager)LookupInstantiator.instantiateViaLookup(IClientManager.class, "de.woelki_web.dwrasp.netmanager.RaspClientManager");
         firstIRC = new Thread() {
             @Override public void run() {
                 try {
@@ -298,6 +301,11 @@ public final class RaspIRCClientTopComponent extends TopComponent {
         jTabbedPaneChat = new javax.swing.JTabbedPane();
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonIRCClient, org.openide.util.NbBundle.getMessage(RaspIRCClientTopComponent.class, "RaspIRCClientTopComponent.jButtonIRCClient.text")); // NOI18N
+        jButtonIRCClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIRCClientActionPerformed(evt);
+            }
+        });
 
         org.openide.awt.Mnemonics.setLocalizedText(jCheckBoxIRCDebug, org.openide.util.NbBundle.getMessage(RaspIRCClientTopComponent.class, "RaspIRCClientTopComponent.jCheckBoxIRCDebug.text")); // NOI18N
         jCheckBoxIRCDebug.addActionListener(new java.awt.event.ActionListener() {
@@ -329,10 +337,10 @@ public final class RaspIRCClientTopComponent extends TopComponent {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelRecipent)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelRecipent, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
                         .addComponent(jComboBoxNicknames, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 673, Short.MAX_VALUE)
                         .addComponent(jButtonIRCClient)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxIRCDebug, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -374,6 +382,10 @@ public final class RaspIRCClientTopComponent extends TopComponent {
     private void jTextFieldMsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMsgActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldMsgActionPerformed
+
+    private void jButtonIRCClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIRCClientActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonIRCClientActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton jButtonIRCClient;

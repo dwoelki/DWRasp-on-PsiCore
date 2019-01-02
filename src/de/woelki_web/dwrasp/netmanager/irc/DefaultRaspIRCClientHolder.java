@@ -6,10 +6,8 @@
 package de.woelki_web.dwrasp.netmanager.irc;
 
 import de.tu_berlin.ilr.ipsm.netmanager.irc.IRCClient;
-import de.tu_berlin.ilr.ipsm.netmanager.irc.IRCClientHolder;
-import de.tu_berlin.ilr.ipsm.settings.PreSettings;
 
-final public class DefaultRaspIRCClientHolder extends IRCClientHolder {
+final public class DefaultRaspIRCClientHolder extends RaspIRCClientHolder {
     
     public DefaultRaspIRCClientHolder() {
         super();

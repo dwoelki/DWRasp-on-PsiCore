@@ -16,6 +16,10 @@ import de.tu_berlin.ilr.ipsm.util.netmanager.IClientManager;
  */
 public class RaspClientManager implements IClientManager {
 
+    public RaspClientManager() {
+        //nothing
+    }
+    
     @Override
     public void connectToHost() {
         //nothing yet

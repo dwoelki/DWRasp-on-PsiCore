@@ -93,7 +93,8 @@
                 </dependency>
             </module-dependencies>
             <public-packages>
-                <package>de.woelki_web.dwrasp.base_module</package>
+                <package>de.woelki_web.dwrasp.netmanager</package>
+                <package>de.woelki_web.dwrasp.netmanager.irc</package>
             </public-packages>
         </data>
     </configuration>

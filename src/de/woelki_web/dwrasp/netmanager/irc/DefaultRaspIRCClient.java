@@ -3,32 +3,20 @@
  */
 package de.woelki_web.dwrasp.netmanager.irc;
 
-import de.tu_berlin.ilr.ipsm.process.IProcessArguments;
-
 /**
  * Class-description:<br>
  * 
  * @author dominik@woelki-web.de
  */
-public class DefaultRaspIRCClient extends RaspIRCClient implements IProcessArguments {
+public class DefaultRaspIRCClient extends RaspIRCClient {
 
     public DefaultRaspIRCClient(String server, int port) {
-        super(server, port);
+        super(server, port, "de.woelki_web.dwrasp.netmanager.irc.DefaultRaspIRCInterpreter");
     }
 
     @Override
     protected String getInterpreterImplementation() {
-        return "de.woelki_web.dwrasp.netmanager.irc.DefaultRaspIRCClient";
-    }
-
-    @Override
-    public Object execute(String[] args) {
-        return "No one teached me how to answer your request -.-";
-    }
-
-    @Override
-    public Object execute(String args) {
-        return "No one teached me how to answer your request -.-";
+        return "de.woelki_web.dwrasp.netmanager.irc.DefaultRaspIRCInterpreter";
     }
     
 }
