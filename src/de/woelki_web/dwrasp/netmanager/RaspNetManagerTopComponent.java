@@ -4,13 +4,13 @@
  */
 package de.woelki_web.dwrasp.netmanager;
 
-import de.tu_berlin.ilr.ipsm.gui.output.ConsoleWriterTopComponent;
 import de.tu_berlin.ilr.ipsm.netmanager.Client;
 import de.tu_berlin.ilr.ipsm.netmanager.Host;
 import de.tu_berlin.ilr.ipsm.netmanager.NetManagerOutput;
 import de.tu_berlin.ilr.ipsm.outputs.IConsoleOutput;
 import de.tu_berlin.ilr.ipsm.settings.PreSettings;
 import de.tu_berlin.ilr.ipsm.util.ConsoleTab;
+import de.tu_berlin.ilr.ipsm.util.DOMXMLTree1;
 import de.tu_berlin.ilr.ipsm.util.StringManager;
 import de.tu_berlin.ilr.ipsm.util.TextFileManager;
 import de.tu_berlin.ilr.ipsm.util.UtilBox;
@@ -87,6 +87,17 @@ public final class RaspNetManagerTopComponent extends TopComponent {
                 }
                 PreSettings.LoadPreSettingsFile = StringManager.FileParser(chosenFile);
                 de.tu_berlin.ilr.ipsm.util.SettingsLoader.loadPreSettingsFromFile();
+                DOMXMLTree1 _settingsTree = new DOMXMLTree1(chosenFile);
+                try {
+                    final String _flag = _settingsTree.getNode("IPSM").getValueAt("isHost");
+                    if (_flag.equalsIgnoreCase("true"))
+                        Host.IS_HOST = true;
+                } catch(RuntimeException e) { /*nothing*/ }
+                try {
+                    final String _flag = _settingsTree.getNode("IPSM").getValueAt("runHost");
+                    if (_flag.equalsIgnoreCase("true"))
+                        Host.RUN_HOST = true;
+                } catch(RuntimeException e) { /*nothing*/ }
                 TextFileManager.writeLinedFile("locate_settings.dat", new String[] {chosenFile}, true);
             }
             initNetManagerServer();
@@ -105,14 +116,9 @@ public final class RaspNetManagerTopComponent extends TopComponent {
                     } catch (InterruptedException ex) { /*nothing*/ }
                     UtilBox.addConsole(NetManagerOutput.DEFAULT_TAB_NAME);
                     IConsoleOutput _serverConsoleTab = (ConsoleTab)UtilBox.getConsole(NetManagerOutput.DEFAULT_TAB_NAME);
-                    if (_serverConsoleTab instanceof ConsoleTab)
-                        java.awt.EventQueue.invokeLater(
-                            new Runnable() {
-                                public void run() {
-                                    ConsoleWriterTopComponent.findInstance().addTab((ConsoleTab)_serverConsoleTab);
-                                }
-                            }
-                        );
+                    if (_serverConsoleTab instanceof ConsoleTab) {
+                        jTabbedPane1ServerConsole.addTab("Server", (ConsoleTab)_serverConsoleTab);
+                    }
                     if (Host.RUN_HOST)
                         Host.startHost();
                 }
@@ -161,6 +167,7 @@ public final class RaspNetManagerTopComponent extends TopComponent {
             public void actionPerformed(ActionEvent e) {
                 if (!lock) {
                     try {
+                        Host.IS_HOST = true;
                         Host.startHost();
                     } catch(Exception ex) {
                         lock = false;
@@ -199,6 +206,7 @@ public final class RaspNetManagerTopComponent extends TopComponent {
         jButtonConnectHost = new javax.swing.JButton();
         jButtonDisconnectHost = new javax.swing.JButton();
         jLabelHost = new javax.swing.JLabel();
+        jTabbedPane1ServerConsole = new javax.swing.JTabbedPane();
 
         org.openide.awt.Mnemonics.setLocalizedText(jButtonConnectClient, org.openide.util.NbBundle.getMessage(RaspNetManagerTopComponent.class, "RaspNetManagerTopComponent.jButtonConnectClient.text")); // NOI18N
 
@@ -219,30 +227,36 @@ public final class RaspNetManagerTopComponent extends TopComponent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDisconnectHost)
+                    .addComponent(jButtonConnectHost, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelClient)
                     .addComponent(jButtonConnectClient, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDisconnectClient)
-                    .addComponent(jLabelHost)
-                    .addComponent(jButtonConnectHost, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDisconnectHost))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(jLabelHost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPane1ServerConsole, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelClient)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonConnectClient)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDisconnectClient)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelHost)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonConnectHost)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDisconnectHost)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1ServerConsole)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelClient)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonConnectClient)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDisconnectClient)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelHost)
+                        .addGap(8, 8, 8)
+                        .addComponent(jButtonConnectHost)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDisconnectHost)
+                        .addGap(0, 46, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -253,6 +267,7 @@ public final class RaspNetManagerTopComponent extends TopComponent {
     private javax.swing.JButton jButtonDisconnectHost;
     private javax.swing.JLabel jLabelClient;
     private javax.swing.JLabel jLabelHost;
+    private javax.swing.JTabbedPane jTabbedPane1ServerConsole;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
