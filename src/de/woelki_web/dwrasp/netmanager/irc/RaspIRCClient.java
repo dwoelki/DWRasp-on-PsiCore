@@ -15,6 +15,7 @@
 
 package de.woelki_web.dwrasp.netmanager.irc;
 
+import de.tu_berlin.ilr.ipsm.globals.Constants;
 import de.tu_berlin.ilr.ipsm.netmanager.irc.InterpretingIRCClient;
 
 abstract public class RaspIRCClient extends InterpretingIRCClient {
@@ -34,12 +35,17 @@ abstract public class RaspIRCClient extends InterpretingIRCClient {
     
     @Override
     public void ignite() {
+        INDIVIDUAL_ATTENTION_TIME = 2*Constants.hour;
+        GENERAL_ATTENTION_TIME    = 30*Constants.min;
         loadPermissions();
         join(channel);
         msg("Hello, I am an IRC bot running DWRasp");
         msg("My name is "+nickName);
         msg("Call me by sending a message with my name "+nickName+" and a command to the group chat or a private message");
         msg("You may ask me for help whenever you need to by sending a message with the message \""+nickName+" help\"");
+        msg("-----.......");
+        msg("My general attention time with \"!\" is "+GENERAL_ATTENTION_TIME+" seconds");
+        msg("My individual attention time with \"!"+nickName+"\" is "+GENERAL_ATTENTION_TIME+" seconds");
     }
     
     @Override
