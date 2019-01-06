@@ -24,7 +24,7 @@ public class Test_BasicPinControl {
             try {
                 pause();
                 System.out.println("PIN "+i);
-                TEST.initPin("pin"+i, i, true);
+                TEST.initPin("pin"+i, String.valueOf(i), true);
                 System.out.println("\tinitialized");
                 TEST.setPinState("pin"+i, true);
                 pause();

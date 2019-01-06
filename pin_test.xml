@@ -1,0 +1,9 @@
+<root>
+	<!-- <directLEDPin mode="out" init="false">A7</directLEDPin> -->
+	<Expander1 id="MCP23S17">
+		<myLEDPin mode="out" init="false">A7</myLEDPin>
+	</Expander1>
+	<Expander2 id="MCP23017">
+		<otherLEDPin mode="out" init="false">B2</otherLEDPin>
+	</Expander2>
+</root>
