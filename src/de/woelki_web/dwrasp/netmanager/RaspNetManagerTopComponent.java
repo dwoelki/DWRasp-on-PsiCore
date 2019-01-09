@@ -14,6 +14,7 @@ import de.tu_berlin.ilr.ipsm.util.DOMXMLTree1;
 import de.tu_berlin.ilr.ipsm.util.StringManager;
 import de.tu_berlin.ilr.ipsm.util.TextFileManager;
 import de.tu_berlin.ilr.ipsm.util.UtilBox;
+import de.woelki_web.dwrasp.base_module.ConfigurationLoader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFileChooser;
@@ -60,6 +61,7 @@ public final class RaspNetManagerTopComponent extends TopComponent {
 
         lock = false;
         initListeners();
+        
         try {
             try {
                 de.tu_berlin.ilr.ipsm.util.SettingsLoader.loadPreSettingsFromFile();
@@ -99,6 +101,13 @@ public final class RaspNetManagerTopComponent extends TopComponent {
                         Host.RUN_HOST = true;
                 } catch(RuntimeException e) { /*nothing*/ }
                 TextFileManager.writeLinedFile("locate_settings.dat", new String[] {chosenFile}, true);
+            }
+            try {
+                ConfigurationLoader.loadConfigurations();
+            }
+            catch(RuntimeException ex) {
+                UtilBox.Console.equals("Warning! Failed loading services and/or GPIO initial configuration from settings.xml");
+                UtilBox.ErrLog.errStackTrace(ex, 10);
             }
             initNetManagerServer();
         }

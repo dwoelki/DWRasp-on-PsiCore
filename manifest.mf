@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 AutoUpdate-Show-In-Client: true
 OpenIDE-Module: de.woelki_web.dwrasp.base_module/1
-OpenIDE-Module-Implementation-Version: 20190106
+OpenIDE-Module-Implementation-Version: 20190107
 OpenIDE-Module-Localizing-Bundle: de/woelki_web/dwrasp/base_module/Bundle.properties
 OpenIDE-Module-Requires: org.openide.windows.WindowManager
 

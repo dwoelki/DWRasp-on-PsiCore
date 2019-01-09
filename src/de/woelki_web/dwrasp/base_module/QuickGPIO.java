@@ -29,6 +29,9 @@ import org.openide.util.Exceptions;
  */
 public class QuickGPIO {
     
+    public static QuickGPIO GLOBAL_INST;
+    
+    
     final   private     GpioController                      INST;
     final   private     HashMap<String, GpioProvider>       CHIP_INST;
     final   private     HashMap<String, GpioPinDigital>     PINS;
