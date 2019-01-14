@@ -25,7 +25,7 @@ public class ConfigurationLoader {
         if (QuickGPIO.GLOBAL_INST==null)
             QuickGPIO.GLOBAL_INST = new QuickGPIO();
         
-        final DOMXMLTree1 _settings = new DOMXMLTree1(StringManager.PathFileMaker(PreSettings.LoadPreSettingsFile));
+        final DOMXMLTree1 _settings = new DOMXMLTree1(StringManager.PathFileMaker(PreSettings.PreSettingsFile));
         final ITreeNode   _raspnode = _settings.getNode("DWRasp");
         final ITreeNode   _services = _raspnode.getNode("Services");
         final ITreeNode   _files    = _raspnode.getNode("Config");

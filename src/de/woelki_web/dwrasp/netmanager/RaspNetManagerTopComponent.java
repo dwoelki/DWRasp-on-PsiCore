@@ -87,8 +87,7 @@ public final class RaspNetManagerTopComponent extends TopComponent {
                         UtilBox.ErrLog.outln("Presettings not properly loaded!");
                     }
                 }
-                PreSettings.LoadPreSettingsFile = StringManager.FileParser(chosenFile);
-                de.tu_berlin.ilr.ipsm.util.SettingsLoader.loadPreSettingsFromFile();
+                de.tu_berlin.ilr.ipsm.util.SettingsLoader.initPreSettings();
                 DOMXMLTree1 _settingsTree = new DOMXMLTree1(chosenFile);
                 try {
                     final String _flag = _settingsTree.getNode("IPSM").getValueAt("isHost");
